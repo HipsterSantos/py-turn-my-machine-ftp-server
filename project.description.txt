@@ -1,0 +1,106 @@
+TCP socket programming: For managing connections.
+Stream handling: For file transfers.
+FTP command parsing: To handle client requests.
+File system operations: To interact with local or remote storage.
+
+Rules and architecture specified in RFC 959
+
+RFC 959 specifies the **File Transfer Protocol (FTP)**, a standard network protocol used for transferring files between computers on a TCP/IP network. Below are the key **rules and architecture** defined in RFC 959:
+
+---
+
+### **1. FTP Architecture**
+FTP is based on a **client-server model** and operates using two separate channels:
+
+#### **Control Connection**
+- Uses **TCP port 21**.
+- Handles commands and responses.
+- Persistent during the session to allow continuous communication between the client and server.
+
+#### **Data Connection**
+- Uses **TCP port 20** (default) or dynamically allocated ports (in Passive mode).
+- Transfers the actual file data.
+- Opened as needed during file transfers.
+
+---
+
+### **2. Modes of Operation**
+FTP supports two main modes for establishing data connections:
+
+#### **Active Mode**
+- The server initiates the data connection to the client.
+- The client specifies the port number using the `PORT` command.
+- May face challenges with firewalls and NAT (Network Address Translation).
+
+#### **Passive Mode**
+- The client initiates the data connection to the server.
+- The server provides its IP and port using the `PASV` command.
+- More firewall-friendly, commonly used today.
+
+---
+
+### **3. Command-Response Model**
+FTP commands are issued by the client, and the server responds with status codes.
+
+#### Common FTP Commands:
+- `USER` and `PASS`: Authenticate the user.
+- `LIST`: List directory contents.
+- `RETR`: Retrieve a file.
+- `STOR`: Store a file.
+- `QUIT`: Terminate the session.
+
+#### Response Codes:
+- `1xx`: Positive Preliminary Reply (e.g., "125 Data connection already open").
+- `2xx`: Positive Completion Reply (e.g., "200 Command OK").
+- `3xx`: Positive Intermediate Reply (e.g., "331 User name OK, need password").
+- `4xx`: Transient Negative Completion (e.g., "450 File unavailable").
+- `5xx`: Permanent Negative Completion (e.g., "530 Not logged in").
+
+---
+
+### **4. Data Representation**
+FTP defines the formats for representing data during transfer:
+
+- **ASCII Mode**: For text files (default mode).
+- **Binary Mode (Image)**: For transferring raw binary data without transformation.
+- **EBCDIC Mode**: Rarely used, for systems using EBCDIC encoding.
+- **Structured Data**: Optional mode for record-structured files.
+
+---
+
+### **5. File and Directory Operations**
+FTP allows various operations:
+- **Navigation**: `CWD` (change working directory), `PWD` (print working directory).
+- **File Management**: `DELE` (delete a file), `RNFR` and `RNTO` (rename a file).
+- **Directory Management**: `MKD` (create directory), `RMD` (remove directory).
+
+---
+
+### **6. Connection Management**
+- **Authentication**: User login with `USER` and `PASS`.
+- **Session Control**: Commands like `QUIT` for termination.
+- **Timeouts**: Connections can time out if idle.
+
+---
+
+### **7. Transfer Modes**
+FTP specifies three modes for data transmission:
+1. **Stream Mode**: Sends data as a continuous stream (default).
+2. **Block Mode**: Data is sent in blocks with headers.
+3. **Compressed Mode**: Uses run-length encoding for compression.
+
+---
+
+### **8. Extensions and Security**
+While RFC 959 doesn’t define security measures:
+- Modern FTP uses **FTPS** (FTP Secure) or **SFTP** (Secure File Transfer Protocol) for encrypted communication.
+- Passive mode enhancements and firewalls/NAT traversal techniques are later extensions.
+
+---
+
+### **Key Considerations in FTP Design**
+- **Stateful Protocol**: FTP maintains state across sessions.
+- **Two Connections**: Separation of control and data channels.
+- **Simplicity and Flexibility**: Support for various file types, operations, and transfer modes.
+
+Would you like a deeper dive into any specific aspect of RFC 959?
