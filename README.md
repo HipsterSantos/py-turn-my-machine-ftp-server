@@ -17,7 +17,6 @@ Refer to the [examples](examples/) directory for usage.
 
 ## Documentation
 See the [API Documentation](docs/index.md).
-```
 
 ### **LICENSE**
 ```text
